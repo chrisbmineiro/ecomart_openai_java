@@ -2,6 +2,7 @@ package com.cbm.ecomart.controller;
 
 import com.cbm.ecomart.service.ContadorDeTokensService;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.prompt.ChatOptionsBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +49,7 @@ public class CategorizadorController {
                 .options(ChatOptionsBuilder.builder()
                         .withTemperature(0.85)
                         .build())
+                .advisors(new SimpleLoggerAdvisor())
                 .call()
                 .content();
     }
