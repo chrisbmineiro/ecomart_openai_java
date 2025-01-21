@@ -1,5 +1,6 @@
 package com.cbm.ecomart.controller;
 
+import com.cbm.ecomart.service.ContadorDeTokensService;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.ChatOptionsBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/categorizador")
 public class CategorizadorController {
+
+    ContadorDeTokensService contador = new ContadorDeTokensService();
 
     private final ChatClient chatClient;
 
@@ -33,6 +36,11 @@ public class CategorizadorController {
                 Pergunta: Bola de futebol
                 Resposta: Esportes
                 """;
+
+        var tokens = contador.contarTokens(system, produto);
+        if (tokens > 3000) {
+            throw new RuntimeException("O limite de tokens foi excedido");
+        }
 
         return this.chatClient.prompt()
                 .system(system)
