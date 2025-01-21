@@ -2,6 +2,7 @@ package com.cbm.ecomart.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.ChatOptionsBuilder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,8 +13,8 @@ public class CategorizadorController {
 
     private final ChatClient chatClient;
 
-    public CategorizadorController(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    public CategorizadorController(@Qualifier("gpt-4o-mini") ChatClient chatClient) {
+        this.chatClient = chatClient;
     }
 
     @GetMapping
